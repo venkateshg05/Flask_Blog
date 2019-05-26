@@ -1,8 +1,8 @@
-from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegisterForm, LoginForm
-app = Flask(__name__)
+from flask import render_template, url_for, flash, redirect
 
-app.config['SECRET_KEY'] = 'cd4e828b9aecaad2b6cbaf029155ebf5'
+from blog import app
+from blog.models import User, Post
+from blog.forms import RegisterForm, LoginForm
 
 posts = [
     {
@@ -22,6 +22,13 @@ posts = [
 @app.route("/")
 @app.route("/home")
 def home():
+    """
+        function name arbitrary
+        uses the above decorator to call this function
+        render_template has 1st arg as filename under templates folder
+        other **args are unpacked using the same param name used here
+        they'll be referenced in the template passed
+    """
     return render_template("home.html", posts=posts)
 
 @app.route("/register", methods=['GET','POST'])
@@ -42,6 +49,3 @@ def login():
 @app.route("/about")
 def about():
     return render_template("about.html",title="About")
-
-if __name__ == '__main__':
-    app.run(debug=True)
